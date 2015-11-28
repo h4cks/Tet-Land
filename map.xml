@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<map proto="1.3.3">
+	<name>Tet Land</name>
+	<version>0.1.0</version>
+	<objective>Shoot other team's player!</objective>
+	<authors>
+		<author>EEE</author>
+	</authors>
+	<paintball>
+		<lives>80</lives>
+	</paintball>
+	<teams>
+		<team color="light_purple" max="16">Purple Team</team>
+		<team color="green" max="16">Green Team</team>
+	</teams>
+	<kits>
+		<kit name="spawn" />
+		<kit name="purple" parents="spawn">
+			<chestplate color="800080" locked="true">leather chestplate</chestplate>
+		</kit>
+		<kit name="green" parents="spawn">
+			<chestplate color="008000" locked="true">leather chestplate</chestplate>
+		</kit>
+	</kits>
+	<spawns>
+		<spawn team="purple" yaw="90" kit="light purple">
+			<cuboid min="-46.5,30,-18.5 " max="-45.5,30,-17.5"/>
+		</spawn>
+		<spawn team="green" yaw="-90" kit="green">
+			<cuboid min="-52.5,30,-18.5 " max="-51.5,30,-17.5"/>
+		</spawn>
+		<default yaw="-90">
+			<cuboid min="0,31,0" max="0,31,0"/>
+		</default>
+		<default yaw="0">
+			<cuboid min="-50.5,37,-19.5" max="-47.5,37,-16.5"/>
+		</default>
+	</spawns>
+	<maxbuildheight>0</maxbuildheight>
+	<autorespawn time="20s"/>
+	<shops>
+		<shop name="Killstreak Shop">
+			<item price="gold nugget,3" damage="8227" potions="speed:36000:0:true" name="speed potion" slot="2" bind="true">potion</item>
+			<item price="gold nugget,6" damage="8227" potions="speed:36000:1:true" name="speed potion2" slot="4" bind="true">potion</item>
+			<item price="gold nugget,20" name="inferno rod" slot="6" bind="true">blaze rod</item>
+		</shop>
+	</shops>
+	<include src="tutorial.xml" />
+	<filters>
+		<filter name="only-purple">
+			<team>purple</team>
+		</filter>
+		<filter name="only-green">
+			<team>green</team>
+		</filter>
+		<filter name="blazerod">
+			<any>
+				<carrying><item name="inferno rod">blaze rod</item></carrying>
+			</any>
+		</filter>
+	</filters>
+	<portals>
+		<!-- purple portal -->
+
+		<!-- X -->
+		<portal z="@13" y="@28" x="@27">
+			<cuboid min="-46,29,-13" max="-44,33,-13"/>
+		</portal>
+		<!-- Y -->
+		<portal z="@-49" y="@11" x="@27">
+			<cuboid min="-46,29,-22" max="-44,33,-22"/>
+		</portal>
+		<!-- DiaUp -->
+		<portal z="@12" y="@6" x="@7">
+			<cuboid min="3,15,-30" max="3,17,-28"/>
+		</portal>
+		<!-- DiaDown -->
+		<portal z="@29" y="@16" x="@5">
+			<cuboid min="6,5,14" max="8,7,14"/>
+		</portal>
+
+		<!-- green portal -->
+		<!-- X -->
+		<portal z="@-49" y="@28" x="@-125">
+			<cuboid min="-53,29,-22" max="-51,33,-22"/>
+		</portal>
+		<!-- Y -->
+		<portal z="@13" y="@11" x="@-125">
+			<cuboid min="-53,29,-13" max="-51,33,-13"/>
+		</portal>
+		<!-- DiaUp -->
+		<portal z="@-48" y="@6" x="@-105">
+			<cuboid min="-101,15,-7" max="-101,17,-5"/>
+		</portal>
+		<!-- DiaDown -->
+		<portal z="@-6" y="@16" x="@-103">
+			<cuboid min="-106,5,-50" max="-104,7,-50"/>
+		</portal>
+
+		<!-- Mid -->
+		<!-- to purple -->
+		<portal z="@-18" y="@30" x="@-46" filter="only-purple">
+			<apply>
+				<region filter="blazerod">
+					<cuboid min="-50,4,-19" max="-47,4,-16"/>
+					<script>
+						<![CDATA[
+							match.broadcast(player.getName()" summon enemies to lava!!");
+							var purpleTeam=match.getTeam("purple-team");
+							var players=match.getPlayers();
+							for(var i = 0; i < players.length; i++){
+							if(players[i].getTeam()!=purpleTeam){
+									players[i].teleport(-49,24,-17);
+								};
+							};
+						]]>
+					</script>
+				</region>
+			</apply>
+		</portal>
+		<portal z="@-18" y="@30" x="@-46" filter="only-purple">
+			<cuboid min="-50,1,-19" max="-47,1,-16"/>
+		</portal>
+		<!-- to green -->
+		<portal z="@-18" y="@30" x="@-52" filter="only-green">
+			<apply>
+				<region filter="blazerod">
+					<script>
+						<![CDATA[
+							match.broadcast(player.getName()" summon enemies to lava!!");
+							var greenTeam=match.getTeam("green-team");
+							var players=match.getPlayers();
+							for(var i = 0; i < players.length; i++){
+								if(players[i].getTeam()!=greenTeam){
+									players[i].teleport(-49,24,-17);
+								};
+							};
+						]]>
+					</script>
+					<cuboid min="-50,4,-19" max="-47,4,-16"/>
+				</region>
+			</apply>
+		</portal>
+		<portal z="@-18" y="@30" x="@-52" filter="only-green">
+			<cuboid min="-50,1,-19" max="-47,1,-16"/>
+		</portal>
+	</portals>
+	<tutorial>
+		<stage title="Paint Ball (PB)">
+			<message>
+				<line>このマップは、PBマップです。</line>
+				<line>敵チームにより多くの雪球を当てることが目標です。</line>
+			</message>
+		</stage>
+	</tutorial>
+</map>
