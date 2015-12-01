@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <map proto="1.3.3">
 	<name>Tet Land</name>
-	<version>0.1.0</version>
+	<version>0.2.1</version>
 	<objective>Shoot other team's player!</objective>
 	<authors>
 		<author>EEE</author>
@@ -14,16 +14,15 @@
 		<team color="green" max="16">Green Team</team>
 	</teams>
 	<kits>
-		<kit name="spawn" />
-		<kit name="purple" parents="spawn">
+		<kit name="purple">
 			<chestplate color="800080" locked="true">leather chestplate</chestplate>
 		</kit>
-		<kit name="green" parents="spawn">
+		<kit name="green">
 			<chestplate color="008000" locked="true">leather chestplate</chestplate>
 		</kit>
 	</kits>
 	<spawns>
-		<spawn team="purple" yaw="90" kit="light purple">
+		<spawn team="purple" yaw="90" kit="purple">
 			<cuboid min="-46.5,30,-18.5 " max="-45.5,30,-17.5"/>
 		</spawn>
 		<spawn team="green" yaw="-90" kit="green">
@@ -42,9 +41,13 @@
 		<shop name="Killstreak Shop">
 			<item price="gold nugget,3" damage="8227" potions="speed:36000:0:true" name="speed potion" slot="2" bind="true">potion</item>
 			<item price="gold nugget,6" damage="8227" potions="speed:36000:1:true" name="speed potion2" slot="4" bind="true">potion</item>
-			<item price="gold nugget,20" name="inferno rod" slot="6" bind="true">blaze rod</item>
+			<item price="gold nugget,20" slot="6" bind="true">exp bottle</item>
 		</shop>
 	</shops>
+	<itemremove>
+		<item>leather_chestplate</item>
+		<item>snow_ball</item>
+	</itemremove>
 	<include src="tutorial.xml" />
 	<filters>
 		<filter name="only-purple">
@@ -53,98 +56,112 @@
 		<filter name="only-green">
 			<team>green</team>
 		</filter>
-		<filter name="blazerod">
-			<any>
-				<carrying><item name="inferno rod">blaze rod</item></carrying>
-			</any>
+		<filter name="enchant-purple">
+			<all>
+				<team>purple</team>
+				<carrying><item>exp bottle</item></carrying>
+			</all>
 		</filter>
+		<filter name="enchantrod-green">
+			<all>
+				<team>green</team>
+				<carrying><item>exp bottle</item></carrying>
+			</all>
+		</filter>
+		
 	</filters>
+	<regions>
+		<cuboid name="mid-purple1" min="-50,1,-17" max="-48,20,-16" />
+		<cuboid name="mid-purple2" min="-51,1,-18" max="-47,20,-17" />
+		<cuboid name="mid-green1" min="-50,1,-20" max="-48,20,-19" />
+		<cuboid name="mid-green2" min="-51,1,-19" max="-47,20,-18" />
+
+		<union name="mid-purple">
+			<region name="mid-purple1" />
+			<region name="mid-purple2" />
+		</union>
+		<union name="mid-green">
+			<region name="mid-green1" />
+			<region name="mid-green2" />
+		</union>
+
+		<apply enter="only-purple" message="敵軍ワープゾーンには入れません/You may not enter the enemy team's warp zone">
+			<region name="mid-purple" />
+		</apply>
+		<apply enter="only-green" message="敵軍ワープゾーンには入れません/You may not enter the enemy team's warp zone">
+			<region name="mid-green" />
+		</apply>
+	</regions>
+
 	<portals>
 		<!-- purple portal -->
 
 		<!-- X -->
-		<portal z="@13" y="@28" x="@27">
+		<portal x="@27" y="@28" z="@13" yaw="135">
 			<cuboid min="-46,29,-13" max="-44,33,-13"/>
 		</portal>
 		<!-- Y -->
-		<portal z="@-49" y="@11" x="@27">
+		<portal x="@27" y="@11" z="@-49" yaw="-135">
 			<cuboid min="-46,29,-22" max="-44,33,-22"/>
 		</portal>
 		<!-- DiaUp -->
-		<portal z="@12" y="@6" x="@7">
+		<portal x="@7" y="@6" z="@12" yaw="@90">
 			<cuboid min="3,15,-30" max="3,17,-28"/>
 		</portal>
 		<!-- DiaDown -->
-		<portal z="@29" y="@16" x="@5">
+		<portal x="@5" y="@16" z="@-29" yaw="@-90">
 			<cuboid min="6,5,14" max="8,7,14"/>
 		</portal>
 
 		<!-- green portal -->
 		<!-- X -->
-		<portal z="@-49" y="@28" x="@-125">
+		<portal x="@-125" y="@28" z="@-49" yaw="@135">
 			<cuboid min="-53,29,-22" max="-51,33,-22"/>
 		</portal>
 		<!-- Y -->
-		<portal z="@13" y="@11" x="@-125">
+		<portal x="@-125" y="@11" z="@13" yaw="@-45">
 			<cuboid min="-53,29,-13" max="-51,33,-13"/>
 		</portal>
 		<!-- DiaUp -->
-		<portal z="@-48" y="@6" x="@-105">
+		<portal x="@-105" y="@6" z="@-48" yaw="@90">
 			<cuboid min="-101,15,-7" max="-101,17,-5"/>
 		</portal>
 		<!-- DiaDown -->
-		<portal z="@-6" y="@16" x="@-103">
-			<cuboid min="-106,5,-50" max="-104,7,-50"/>
+		<portal x="@-103" y="@16" z="@-6" yaw="@-90">
+			5<cuboid min="-106,5,-50" max="-104,7,-50"/>
 		</portal>
 
 		<!-- Mid -->
 		<!-- to purple -->
-		<portal z="@-18" y="@30" x="@-46" filter="only-purple">
-			<apply>
-				<region filter="blazerod">
-					<cuboid min="-50,4,-19" max="-47,4,-16"/>
-					<script>
-						<![CDATA[
-							match.broadcast(player.getName()" summon enemies to lava!!");
-							var purpleTeam=match.getTeam("purple-team");
-							var players=match.getPlayers();
-							for(var i = 0; i < players.length; i++){
-							if(players[i].getTeam()!=purpleTeam){
-									players[i].teleport(-49,24,-17);
-								};
-							};
-						]]>
-					</script>
-				</region>
-			</apply>
-		</portal>
-		<portal z="@-18" y="@30" x="@-46" filter="only-purple">
-			<cuboid min="-50,1,-19" max="-47,1,-16"/>
+		<portal x="@-46" y="@30" z="@-18">
+			<cuboid min="-50.5,4,-17.5" max="-47.5,4,-16.5"/>
 		</portal>
 		<!-- to green -->
-		<portal z="@-18" y="@30" x="@-52" filter="only-green">
-			<apply>
-				<region filter="blazerod">
-					<script>
-						<![CDATA[
-							match.broadcast(player.getName()" summon enemies to lava!!");
-							var greenTeam=match.getTeam("green-team");
-							var players=match.getPlayers();
-							for(var i = 0; i < players.length; i++){
-								if(players[i].getTeam()!=greenTeam){
-									players[i].teleport(-49,24,-17);
-								};
-							};
-						]]>
-					</script>
-					<cuboid min="-50,4,-19" max="-47,4,-16"/>
-				</region>
-			</apply>
+		<portal x="@-52" y="@30" z="@-18">
+			<cuboid min="-50.5,4,-19.5" max="-47.5,4,-18.5"/>
 		</portal>
-		<portal z="@-18" y="@30" x="@-52" filter="only-green">
-			<cuboid min="-50,1,-19" max="-47,1,-16"/>
-		</portal>
+		
 	</portals>
+
+	<script>
+		<![CDATA[
+			match.getWorld().on('use', function(event) {
+				if ((event.getItemStack().getType() == 'EXP_BOTTLE')
+					&&((event.getPlayer().getTeam().getName()=="Purple Team")
+					||(event.getPlayer().getTeam().getName()=="Green Team"))){
+					match.broadcast(event.getPlayer().getName() + " summon enemies to lava!!");
+					
+					var players=match.getPlayers();
+					for(var i = 0; i < players.length; i++){
+						if(players[i].getTeam().getName()!=event.getPlayer().getTeam().getName()){
+							players[i].teleport(-49,24,-17);
+						};
+					};
+				}
+			});
+		]]>
+	</script>
+
 	<tutorial>
 		<stage title="Paint Ball (PB)">
 			<message>
