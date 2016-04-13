@@ -54,14 +54,14 @@
 
 	<shops>
 		<shop name="Purple Shop">
-			<item price="BLAZE_ROD,1">snow ball</item>
+			<item price="BLAZE_ROD,1" slot="0">snow ball</item>
 			<item price="BLAZE_ROD,2" damage="8227" potions="speed:36000:0:true" name="speed potion" slot="2" bind="true">potion</item>
 			<item price="BLAZE_ROD,4" damage="8227" potions="speed:36000:1:true" name="speed potion2" slot="4" bind="true">potion</item>
 			<item price="BLAZE_ROD,10" slot="6" bind="true">exp bottle</item>
 		</shop>
 
 		<shop name="Green Shop">
-			<item price="NETHER_STAR,1">snow ball</item>
+			<item price="NETHER_STAR,1" slot="0">snow ball</item>
 			<item price="NETHER_STAR,2" damage="8227" potions="speed:36000:0:true" name="speed potion" slot="2" bind="true">potion</item>
 			<item price="NETHER_STAR,4" damage="8227" potions="speed:36000:1:true" name="speed potion2" slot="4" bind="true">potion</item>
 			<item price="NETHER_STAR,10" slot="6" bind="true">exp bottle</item>
