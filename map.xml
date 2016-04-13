@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <map proto="1.3.3">
 	<name>Tet Land</name>
-	<version>0.2.1</version>
+	<version>1.0.1</version>
 	<objective>Shoot other team's player!</objective>
 
 	<authors>
@@ -12,7 +12,7 @@
 	</contributors>
 
 	<paintball>
-		<lives>80</lives>
+		<lives>60</lives>
 	</paintball>
 
 	<teams>
@@ -30,7 +30,7 @@
 	</kits>
 	
 	<killreward>
-    	<item amount="1">emerald</item>
+	<item amount="1">emerald</item>
 	</killreward>
 	
 	<spawns>
@@ -54,15 +54,17 @@
 
 	<shops>
 		<shop name="Purple Shop">
-			<item price="BLAZE_ROD,3" damage="8227" potions="speed:36000:0:true" name="speed potion" slot="2" bind="true">potion</item>
-			<item price="BLAZE_ROD,6" damage="8227" potions="speed:36000:1:true" name="speed potion2" slot="4" bind="true">potion</item>
-			<item price="BLAZE_ROD,20" slot="6" bind="true">exp bottle</item>
+			<item price="BLAZE_ROD,1">snow ball</item>
+			<item price="BLAZE_ROD,2" damage="8227" potions="speed:36000:0:true" name="speed potion" slot="2" bind="true">potion</item>
+			<item price="BLAZE_ROD,4" damage="8227" potions="speed:36000:1:true" name="speed potion2" slot="4" bind="true">potion</item>
+			<item price="BLAZE_ROD,10" slot="6" bind="true">exp bottle</item>
 		</shop>
 
 		<shop name="Green Shop">
-			<item price="NETHER_STAR,3" damage="8227" potions="speed:36000:0:true" name="speed potion" slot="2" bind="true">potion</item>
-			<item price="NETHER_STAR,6" damage="8227" potions="speed:36000:1:true" name="speed potion2" slot="4" bind="true">potion</item>
-			<item price="NETHER_STAR,20" slot="6" bind="true">exp bottle</item>
+			<item price="NETHER_STAR,1">snow ball</item>
+			<item price="NETHER_STAR,2" damage="8227" potions="speed:36000:0:true" name="speed potion" slot="2" bind="true">potion</item>
+			<item price="NETHER_STAR,4" damage="8227" potions="speed:36000:1:true" name="speed potion2" slot="4" bind="true">potion</item>
+			<item price="NETHER_STAR,10" slot="6" bind="true">exp bottle</item>
 		</shop>
 	</shops>
 
@@ -166,6 +168,32 @@
 				};
 			});
 		]]>
+
+		<![CDATA[
+			match.on('start', function() {
+				var matchPlayerCount;
+				var teams = match.getTeams;
+				for (var team in teams) {
+					matchPlayerCount += team.getPlayerCount()
+				}
+				if (matchPlayerCount >= 8 && matchPlayerCount < 14) {
+					for (var team in teams) {
+						team.incrementScore(10);
+					}
+				}
+				else if (matchPlayerCount >= 14 && matchPlayerCount < 20) {
+					for (var team in teams) {
+						team.incrementScore(30);
+					}
+				}
+				else if (matchPlayerCount >= 20) {
+					for (var team in teams) {
+						team.incrementScore(50);
+					}
+				}
+			});
+		]]>
+		
 	</script>
 
 	<!-- Tutorial -->
@@ -173,9 +201,136 @@
 	<tutorial>
 		<stage title="Paint Ball (PB)">
 			<message>
+				<line>This map is a "Paint Ball"(PB) map.</line>
+				<line>The objective is to capture the enemies by throwing snowballs.</line>
+			</message>
+			<message lang="ja_JP">
 				<line>このマップは、PBマップです。</line>
 				<line>敵チームにより多くの雪球を当てることが目標です。</line>
 			</message>
+			<teleport>
+   				<point yaw="0" pitch="20">-49,38,-18</point>
+			</teleport>
+		</stage>
+		
+		<!-- Spawn & Warp -->
+		<stage title="Purple-Spawn">
+			<message>
+				<line>This is spawn point.</line>
+			</message>
+			<message lang="ja_JP">
+				<line>こちらがスポーン地点です。</line>
+			</message>
+   			<teleport>
+   				<point yaw="90" pitch="0">-45,31,-18</point>
+			</teleport>
+		</stage>
+		<stage title="Purple-X">
+			<message>
+				<line>This is portal "X".</line>
+			</message>
+			<message lang="ja_JP">
+				<line>こちらはワープ先Xです。</line>
+			</message>
+   			<teleport>
+   				<point yaw="135" pitch="0">27,28,13</point>
+			</teleport>
+		</stage>
+		<stage title="Purple-Y">
+			<message>
+				<line>This is portal "Y".</line>
+			</message>
+			<message lang="ja_JP">
+				<line>こちらはワープ先Yです。</line>
+			</message>
+   			<teleport>
+   				<point yaw="45" pitch="0">27,11,-49</point>
+			</teleport>
+		</stage>
+		<stage title="Purple-Upper">
+			<message>
+				<line>This is upper side portal.</line>
+			</message>
+			<message lang="ja_JP">
+				<line>こちらは上側のワープゾーンです。</line>
+			</message>
+   			<teleport>
+   				<point yaw="45" pitch="20">7,18,-33</point>
+			</teleport>
+		</stage>
+		<stage title="Purple-Lower">
+			<message>
+				<line>This is lower side portal.</line>
+			</message>
+			<message lang="ja_JP">
+				<line>こちらは下側のワープゾーンです。</line>
+			</message>
+   			<teleport>
+   				<point yaw="-45" pitch="20">4,8,10</point>
+			</teleport>
+		</stage>
+		<stage title="Center">
+			<message>
+				<line>This is the portal to spawn.</line>
+			</message>
+			<message lang="ja_JP">
+				<line>この中心にあるゲートをくぐるとスポーン地点に戻れます。</line>
+			</message>
+   			<teleport>
+   				<point yaw="180" pitch="20">-49,8,-11</point>
+			</teleport>
+		</stage>
+		
+		<!-- Shop -->
+		<stage title="Purple-Shop">
+			<message>
+				<line>Here is Shop at spawn point.</line>
+			</message>
+			<message lang="ja_JP">
+				<line>ショップはスポーン地点にあります。</line>
+			</message>
+   			<teleport>
+   				<point yaw="-90" pitch="20">-45,31,-18</point>
+			</teleport>
+		</stage>
+		<stage title="Purple-Money-1">
+			<message>
+				<line>You can get item to use at the shop from this spawn block.(1/2)</line>
+			</message>
+			<message lang="ja_JP">
+				<line>ショップ換金用アイテムのスポーンブロックその1</line>
+			</message>
+   			<teleport>
+   				<point yaw="-49" pitch="45">7,11,-6</point>
+			</teleport>
+		</stage>
+		<stage title="Purple-Money-2">
+			<message>
+				<line>You can get item to use at the shop from this spawn block.(2/2)</line>
+			</message>
+			<message lang="ja_JP">
+				<line>ショップ換金用アイテムのスポーンブロックその2</line>
+			</message>
+   			<teleport>
+   				<point yaw="-135" pitch="45">8,30,-30</point>
+			</teleport>
+		</stage>
+		
+		<!-- TNT -->
+		<stage title="TNT">
+			<message>
+				<line>This is Icarus Cannon.</line>
+				<line>How to use:</line>
+				<line>https://www.youtube.com/watch?v=QE5_qTaFd78</line>
+			</message>
+			<message lang="ja_JP">
+				<line>これはTNTを使用したジャンプ台です。</line>
+				<line>詳しい使い方はこちら:</line>
+				<line>https://www.youtube.com/watch?v=QE5_qTaFd78</line>
+			</message>
+   			<teleport>
+   				<point yaw="-135" pitch="45">-40,9,13</point>
+			</teleport>
 		</stage>
 	</tutorial>
 </map>
