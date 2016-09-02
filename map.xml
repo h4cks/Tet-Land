@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <map proto="1.3.3">
 	<name>Tet Land</name>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 	<objective>Shoot other team's player!</objective>
 
 	<authors>
@@ -30,11 +30,30 @@
 			<potion duration="oo" amplifier="0">Speed</potion>
 		</kit>
 	</kits>
-	
-	<killreward>
-	<item amount="1">emerald</item>
-	</killreward>
-	
+	<classes sticky="true">
+		<class name="Speed Star" description="Speed II" longdescription="移動速度上昇2が付与されるクラスです。/You have speed II." icon="Glowstone">
+			<kit>
+				<helmet locked="true">Glowstone</helmet>
+				<potion duration="oo" amplifier="1">Speed</potion>
+			</kit>
+		</class>
+		<class name="Jumper" description="Jump boost II" longdescription="ジャンプ力上昇 IIが付与されるクラスです。/You have jump boost II." icon="Piston Base">
+			<kit>
+				<helmet locked="true">Piston Base</helmet>
+				<potion duration="oo" amplifier="1">Jump</potion>
+			</kit>
+		</class>
+		<class name="Gatling" description="Snowballs 64x3" longdescription="リスポーン時に雪球が3スタック配布されるクラスです。/You have snowballs 64x3 even time when you respawn." icon="Snow Block">
+			<kit>
+				<helmet locked="true">Snow Block</helmet>
+				<item amount="64">snow ball</item>
+				<item amount="64">snow ball</item>
+				<item amount="64">snow ball</item>
+			</kit>
+		</class>
+
+	</classes>
+
 	<spawns>
 		<spawn team="purple" yaw="90" kit="purple">
 			<cuboid min="-46.5,30,-18.5 " max="-45.5,30,-17.5"/>
@@ -86,17 +105,22 @@
 		<filter name="only-green">
 			<team>green</team>
 		</filter>
+		<filter name="TNT" parents="deny-players" /><!-- TNT取得対策 -->
 	</filters>
 
 	<regions>
 		<cuboid name="mid-purple" min="-50,5,-18" max="-48,8,-16"/>
 		<cuboid name="mid-green" min="-50,5,-20" max="-48,8,-18"/>
 
-		<apply enter="only-purple" message="敵軍ワープゾーンには入れません/You may not enter the enemy team's warp zone">
+		<apply enter="only-purple" message="敵軍ワープゾーンには入れません。/You may not enter the enemy team's warp zone">
 			<region name="mid-purple" />
 		</apply>
-		<apply enter="only-green" message="敵軍ワープゾーンには入れません/You may not enter the enemy team's warp zone">
+		<apply enter="only-green" message="敵軍ワープゾーンには入れません。/You may not enter the enemy team's warp zone">
 			<region name="mid-green" />
+		</apply>
+		<apply use="TNT" message="ディスペンサーからTNTを取り出すことは出来ません。/you cannot get tnts from dispensers.">
+			<cuboid name="tnt-green" min="-66,3,-45" max="-63,3,-44"/>
+			<cuboid name="tnt-purple" min="-36,3,8" max="-33,3,9"/>
 		</apply>
 	</regions>
 
